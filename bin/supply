@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -euo pipefail
+
+BUILD_DIR=$1
+CACHE_DIR=$2
+DEPS_DIR=$3
+DEPS_IDX=$4
+
+echo "-----> Running sidecar supply"
+
+cp sidecar.yml "/home/vcap/sidecar.yml"
+
+echo '---
+processes:
+- type: "sidecar_process"
+  command: "/etc/cf-assets/envoy/envoy -c /home/vcap/sidecar.yaml --drain-time-s 900 --log-level critical --base-id 1"
+  limits:
+    memory: 64
+  platforms:
+    cloudfoundry:
+      sidecar_for: [ "web"]
+' > "$DEPS_DIR"/"$DEPS_IDX"/launch.yml

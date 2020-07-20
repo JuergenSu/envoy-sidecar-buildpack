@@ -1,0 +1,44 @@
+admin:
+  access_log_path: /dev/null
+  address:
+	socket_address:
+  	address: 127.0.0.1
+  	port_value: 61013
+node:
+  cluster: proxy-cluster
+  id: sidecar
+static_resources:
+  clusters:
+  - circuit_breakers:
+  	thresholds:
+  	- max_connections: 4294967295
+	connect_timeout: 0.250s
+	hosts:
+	- socket_address:
+    	address: 127.0.0.1
+    	port_value: 8080
+	name: 2-service-cluster
+	type: STATIC
+  listeners:
+  - address:
+  	socket_address:
+    	address: 0.0.0.0
+    	port_value: 61011
+	filter_chains:
+	- filters:
+  	- config:
+      	cluster: 2-service-cluster
+      	stat_prefix: 2-stats
+    	name: envoy.tcp_proxy
+  	tls_context:
+    	common_tls_context:
+      	tls_certificate_sds_secret_configs:
+      	- name: server-cert-and-key
+        	sds_config:
+          	path: /etc/cf-assets/envoy_config/sds-server-cert-and-key.yaml
+      	tls_params:
+        	cipher_suites:
+        	- ECDHE-RSA-AES256-GCM-SHA384
+        	- ECDHE-RSA-AES128-GCM-SHA256
+    	require_client_certificate: false
+	name: listener-8080
