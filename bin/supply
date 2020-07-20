@@ -13,7 +13,7 @@ echo "-----> Running envoy sidecar supply"
 
 cp $BUILDPACK_DIR/src/sidecar.yaml "$DEPS_DIR/$DEPS_IDX/sidecar.yaml"
 
-echo "${pwd}"
+echo "$(pwd)"
 
 echo "---
 processes:
