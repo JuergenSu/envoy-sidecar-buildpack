@@ -17,7 +17,7 @@ static_resources:
     - socket_address:
         address: 127.0.0.1
         port_value: 8080
-    name: 2-service-cluster
+    name: 3-service-cluster
     type: STATIC
   listeners:
   - address:
