@@ -9,15 +9,15 @@ DEPS_IDX=$4
 
 echo "-----> Running sidecar supply"
 
-cp sidecar.yml "/home/vcap/sidecar.yml"
+cp ./src/sidecar.yml "$DEPS_DIR/$DEPS_IDX/sidecar.yml"
 
-echo '---
+echo "---
 processes:
 - type: "sidecar_process"
-  command: "/etc/cf-assets/envoy/envoy -c /home/vcap/sidecar.yaml --drain-time-s 900 --log-level critical --base-id 1"
+  command: "/etc/cf-assets/envoy/envoy -c $DEPS_DIR/$DEPS_IDX/sidecar.yml --drain-time-s 900 --log-level critical --base-id 1"
   limits:
     memory: 64
   platforms:
     cloudfoundry:
       sidecar_for: [ "web"]
-' > "$DEPS_DIR"/"$DEPS_IDX"/launch.yml
+" > "$DEPS_DIR"/"$DEPS_IDX"/launch.yml
