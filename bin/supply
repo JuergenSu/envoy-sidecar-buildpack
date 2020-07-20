@@ -11,12 +11,12 @@ export BUILDPACK_DIR=`dirname $(readlink -f ${BASH_SOURCE%/*})`
 
 echo "-----> Running envoy sidecar supply"
 
-cp $BUILDPACK_DIR/src/sidecar.yml "$DEPS_DIR/$DEPS_IDX/sidecar.yml"
+cp $BUILDPACK_DIR/src/sidecar.yaml "$DEPS_DIR/$DEPS_IDX/sidecar.yaml"
 
 echo "---
 processes:
 - type: "sidecar_process"
-  command: "/etc/cf-assets/envoy/envoy -c /home/vcap/deps/$DEPS_IDX/sidecar.yml --drain-time-s 900 --log-level critical --base-id 1"
+  command: "/etc/cf-assets/envoy/envoy -c /home/vcap/deps/$DEPS_IDX/sidecar.yaml --drain-time-s 900 --log-level critical --base-id 1"
   limits:
     memory: 64
   platforms:
